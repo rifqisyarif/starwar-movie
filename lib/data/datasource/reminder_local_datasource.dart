@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:startwar_movie_app/data/models/movie_detail_model.dart';
+import 'package:startwar_movie_app/data/services/reminder_notification_service.dart';
 import 'package:startwar_movie_app/domain/entities/reminder.dart';
 
 abstract class ReminderLocalDataSource {
@@ -16,8 +17,12 @@ class ReminderLocalDataSourceImpl implements ReminderLocalDataSource {
   static const String _storageKey = 'movie_reminders';
 
   final SharedPreferences sharedPreferences;
+  final ReminderNotificationService notificationService;
 
-  ReminderLocalDataSourceImpl({required this.sharedPreferences});
+  ReminderLocalDataSourceImpl({
+    required this.sharedPreferences,
+    required this.notificationService,
+  });
 
   @override
   Future<List<Reminder>> getReminders() async {
@@ -66,6 +71,8 @@ class ReminderLocalDataSourceImpl implements ReminderLocalDataSource {
     );
 
     await sharedPreferences.setString(_storageKey, jsonString);
+
+    await notificationService.scheduleReminder(reminder);
   }
 
   @override
@@ -87,5 +94,7 @@ class ReminderLocalDataSourceImpl implements ReminderLocalDataSource {
     );
 
     await sharedPreferences.setString(_storageKey, jsonString);
+
+    await notificationService.cancelReminder(reminderId);
   }
 }

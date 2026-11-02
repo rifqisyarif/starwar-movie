@@ -12,6 +12,7 @@ import 'package:startwar_movie_app/data/repositories/location_repository_impl.da
 import 'package:startwar_movie_app/data/repositories/movie_repository_impl.dart';
 import 'package:startwar_movie_app/data/repositories/reminder_repository_impl.dart';
 import 'package:startwar_movie_app/data/repositories/routing_datasource_impl.dart';
+import 'package:startwar_movie_app/data/services/reminder_notification_service.dart';
 import 'package:startwar_movie_app/domain/repositories/cinema_repository.dart';
 import 'package:startwar_movie_app/domain/repositories/location_repository.dart';
 import 'package:startwar_movie_app/domain/repositories/movie_repository.dart';
@@ -23,13 +24,26 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final sharedPreferences = await SharedPreferences.getInstance();
-  runApp(MainApp(sharedPreferences: sharedPreferences));
+  final reminderNotificationService = ReminderNotificationService();
+  await reminderNotificationService.initialize();
+
+  runApp(
+    MainApp(
+      sharedPreferences: sharedPreferences,
+      reminderNotificationService: reminderNotificationService,
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {
   final SharedPreferences sharedPreferences;
+  final ReminderNotificationService reminderNotificationService;
 
-  const MainApp({super.key, required this.sharedPreferences});
+  const MainApp({
+    super.key,
+    required this.sharedPreferences,
+    required this.reminderNotificationService,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -73,8 +87,10 @@ class MainApp extends StatelessWidget {
         ),
 
         RepositoryProvider<ReminderLocalDataSource>(
-          create: (context) =>
-              ReminderLocalDataSourceImpl(sharedPreferences: sharedPreferences),
+          create: (context) => ReminderLocalDataSourceImpl(
+            sharedPreferences: sharedPreferences,
+            notificationService: reminderNotificationService,
+          ),
         ),
 
         RepositoryProvider<ReminderRepository>(
