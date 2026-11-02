@@ -1,10 +1,7 @@
-import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:startwar_movie_app/core/events/app_event_bus.dart';
-import 'package:startwar_movie_app/core/events/app_events.dart';
-import 'package:startwar_movie_app/data/models/cinema_list_model.dart';
+import 'package:startwar_movie_app/domain/entities/cinema.dart';
 import 'package:startwar_movie_app/data/models/movie_detail_model.dart';
 import 'package:startwar_movie_app/domain/entities/reminder.dart';
 import 'package:startwar_movie_app/presentation/cinema/bloc/cinema/cinema_bloc.dart';
@@ -28,7 +25,7 @@ class CinemaView extends StatefulWidget {
 }
 
 class _CinemaViewState extends State<CinemaView> {
-  CinemaData? selectedCinema;
+  Cinema? selectedCinema;
   GoogleMapController? _mapController;
   @override
   Widget build(BuildContext context) {
@@ -141,6 +138,9 @@ class _CinemaViewState extends State<CinemaView> {
                                 if (routeState is RouteLoaded)
                                   ElevatedButton(
                                     onPressed: () {
+                                      final reminderBloc = context
+                                          .read<ReminderBloc>();
+
                                       showDialog(
                                         context: context,
                                         builder: (context) {
@@ -161,13 +161,11 @@ class _CinemaViewState extends State<CinemaView> {
                                                   filmDetail: widget.filmDetail,
                                                 );
 
-                                                context
-                                                    .read<ReminderBloc>()
-                                                    .add(
-                                                      ScheduleReminderEvent(
-                                                        reminder,
-                                                      ),
-                                                    );
+                                                reminderBloc.add(
+                                                  ScheduleReminderEvent(
+                                                    reminder,
+                                                  ),
+                                                );
                                                 ScaffoldMessenger.of(
                                                   context,
                                                 ).showSnackBar(
@@ -180,9 +178,7 @@ class _CinemaViewState extends State<CinemaView> {
                                                     ),
                                                     action: SnackBarAction(
                                                       label: 'OK',
-                                                      onPressed: () {
-                                                        // Aksi ketika tombol ditekan
-                                                      },
+                                                      onPressed: () {},
                                                     ),
                                                   ),
                                                 );

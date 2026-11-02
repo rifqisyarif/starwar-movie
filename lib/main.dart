@@ -5,14 +5,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:startwar_movie_app/data/datasource/cinema_mock_datasource.dart';
 import 'package:startwar_movie_app/data/datasource/location_datasource.dart';
 import 'package:startwar_movie_app/data/datasource/movie_datasource.dart';
+import 'package:startwar_movie_app/data/datasource/reminder_local_datasource.dart';
 import 'package:startwar_movie_app/data/datasource/routing_datasource.dart';
 import 'package:startwar_movie_app/data/repositories/cinema_repository_impl.dart';
 import 'package:startwar_movie_app/data/repositories/location_repository_impl.dart';
 import 'package:startwar_movie_app/data/repositories/movie_repository_impl.dart';
+import 'package:startwar_movie_app/data/repositories/reminder_repository_impl.dart';
 import 'package:startwar_movie_app/data/repositories/routing_datasource_impl.dart';
 import 'package:startwar_movie_app/domain/repositories/cinema_repository.dart';
 import 'package:startwar_movie_app/domain/repositories/location_repository.dart';
 import 'package:startwar_movie_app/domain/repositories/movie_repository.dart';
+import 'package:startwar_movie_app/domain/repositories/reminder_repository.dart';
 import 'package:startwar_movie_app/domain/repositories/routing_repository.dart';
 import 'package:startwar_movie_app/presentation/movie_list/pages/movie_list_page.dart';
 
@@ -37,7 +40,7 @@ class MainApp extends StatelessWidget {
         ),
         RepositoryProvider<MovieRepository>(
           create: (context) => MovieRepositoryImpl(
-            remoteDataSource: RepositoryProvider.of<MovieDataSource>(context),
+            RepositoryProvider.of<MovieDataSource>(context),
           ),
         ),
 
@@ -65,10 +68,23 @@ class MainApp extends StatelessWidget {
         ),
 
         RepositoryProvider<RoutingRepository>(
-          create: (context) => RoutingRepositoryImpl(
-            remoteDataSource: context.read<RoutingDataSource>(),
+          create: (context) =>
+              RoutingRepositoryImpl(context.read<RoutingDataSource>()),
+        ),
+
+        RepositoryProvider<ReminderLocalDataSource>(
+          create: (context) =>
+              ReminderLocalDataSourceImpl(sharedPreferences: sharedPreferences),
+        ),
+
+        RepositoryProvider<ReminderRepository>(
+          create: (context) => ReminderRepositoryImpl(
+            localDataSource: RepositoryProvider.of<ReminderLocalDataSource>(
+              context,
+            ),
           ),
         ),
+
         RepositoryProvider<EventBus>(create: (_) => EventBus()),
       ],
       child: MaterialApp(

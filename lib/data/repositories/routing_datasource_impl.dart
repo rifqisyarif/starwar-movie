@@ -6,9 +6,9 @@ import '../../domain/repositories/routing_repository.dart';
 class RoutingRepositoryImpl implements RoutingRepository {
   final RoutingDataSource remoteDataSource;
 
-  RoutingRepositoryImpl({
-    required this.remoteDataSource,
-  });
+  RoutingRepositoryImpl(
+    this.remoteDataSource,
+  );
 
   @override
   Future<Route> getRoute({

@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,9 +17,7 @@ class ReminderLocalDataSourceImpl implements ReminderLocalDataSource {
 
   final SharedPreferences sharedPreferences;
 
-  ReminderLocalDataSourceImpl({
-    required this.sharedPreferences,
-  });
+  ReminderLocalDataSourceImpl({required this.sharedPreferences});
 
   @override
   Future<List<Reminder>> getReminders() async {

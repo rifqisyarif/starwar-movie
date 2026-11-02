@@ -9,10 +9,14 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
   final ReminderRepository repository;
   final EventBus eventBus;
 
-  ReminderBloc({
-    required this.repository,
-    required this.eventBus,
-  }) : super(ReminderInitial()) {
+  @override
+  void onTransition(Transition<ReminderEvent, ReminderState> transition) {
+    super.onTransition(transition);
+    print('Transition: ${transition.event} -> ${transition.nextState}');
+  }
+
+  ReminderBloc({required this.repository, required this.eventBus})
+    : super(ReminderInitial()) {
     on<LoadRemindersEvent>(_onLoadReminders);
     on<ScheduleReminderEvent>(_onScheduleReminder);
     on<CancelReminderEvent>(_onCancelReminder);
@@ -66,11 +70,7 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
 
       emit(ReminderLoaded(reminders));
 
-      eventBus.fire(
-        ReminderCancelled(
-          cinemaId: event.cinemaId,
-        ),
-      );
+      eventBus.fire(ReminderCancelled(cinemaId: event.cinemaId));
     } catch (e) {
       emit(ReminderError(e.toString()));
     }

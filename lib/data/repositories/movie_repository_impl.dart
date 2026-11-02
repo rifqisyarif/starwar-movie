@@ -6,7 +6,7 @@ import 'package:startwar_movie_app/domain/repositories/movie_repository.dart';
 class MovieRepositoryImpl implements MovieRepository {
   final MovieDataSource remoteDataSource;
 
-  MovieRepositoryImpl({required this.remoteDataSource});
+  MovieRepositoryImpl( this.remoteDataSource);
 
   @override
   Future<List<MovieData>> getMovies() async {

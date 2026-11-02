@@ -7,6 +7,7 @@ import 'package:startwar_movie_app/presentation/cinema/bloc/location/location_bl
 import 'package:startwar_movie_app/presentation/cinema/bloc/location/location_event.dart';
 import 'package:startwar_movie_app/presentation/cinema/bloc/route/route_bloc.dart';
 import 'package:startwar_movie_app/presentation/cinema/pages/cinema_view.dart';
+import 'package:startwar_movie_app/presentation/reminder/bloc/reminder_bloc.dart';
 
 class CinemaPage extends StatelessWidget {
   final MovieDetailModel filmDetail;
@@ -35,6 +36,12 @@ class CinemaPage extends StatelessWidget {
             ),
             BlocProvider(
               create: (context) => RouteBloc(RepositoryProvider.of(context)),
+            ),
+            BlocProvider(
+              create: (context)=>ReminderBloc(
+                repository: RepositoryProvider.of(context),
+                eventBus: RepositoryProvider.of(context),
+              ),
             ),
           ],
           child: CinemaView(filmDetail: filmDetail),

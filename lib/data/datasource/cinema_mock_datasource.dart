@@ -1,39 +1,39 @@
-import 'package:startwar_movie_app/data/models/cinema_list_model.dart';
+import 'package:startwar_movie_app/domain/entities/cinema.dart';
 
 abstract class CinemaMockDataSource {
-  Future<List<CinemaData>> getCinemas();
+  Future<List<Cinema>> getCinemas();
 }
 
 class CinemaMockDataSourceImpl implements CinemaMockDataSource {
   @override
-  Future<List<CinemaData>> getCinemas() async {
+  Future<List<Cinema>> getCinemas() async {
     await Future.delayed(const Duration(seconds: 1)); // Simulate network delay
     return const [
-      CinemaData(
+      Cinema(
         id: '1',
         name: 'Cinema A',
         latitude: -6.1754,
         longitude: 106.8272,
       ),
-      CinemaData(
+      Cinema(
         id: '2',
         name: 'Cinema B',
         latitude: -6.2000,
         longitude: 106.8167,
       ),
-      CinemaData(
+      Cinema(
         id: '3',
         name: 'Cinema C',
         latitude: -6.2297,
         longitude: 106.8295,
       ),
-      CinemaData(
+      Cinema(
         id: '4',
         name: 'Cinema D',
         latitude: -6.1900,
         longitude: 106.8230,
       ),
-      CinemaData(
+      Cinema(
         id: '5',
         name: 'Cinema E',
         latitude: -6.2146,

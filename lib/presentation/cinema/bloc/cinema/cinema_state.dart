@@ -1,4 +1,4 @@
-import 'package:startwar_movie_app/data/models/cinema_list_model.dart';
+import 'package:startwar_movie_app/domain/entities/cinema.dart';
 
 sealed class CinemaState {
   const CinemaState();
@@ -13,7 +13,7 @@ class CinemaLoadingState extends CinemaState {
 }
 
 class CinemaLoadedState extends CinemaState {
-  final List<CinemaData> cinemas;
+  final List<Cinema> cinemas;
   const CinemaLoadedState(this.cinemas);
 }
 

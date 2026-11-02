@@ -1,4 +1,4 @@
-import 'package:startwar_movie_app/data/models/cinema_list_model.dart';
+import 'package:startwar_movie_app/domain/entities/cinema.dart';
 
 sealed class CinemaEvent {
   const CinemaEvent();
@@ -19,7 +19,7 @@ class ErrorCinemasEvent extends CinemaEvent {
 }
 
 class CinemasLoadedEvent extends CinemaEvent {
-  final List<CinemaData> cinemas;
+  final List<Cinema> cinemas;
   const CinemasLoadedEvent(this.cinemas);
 }
 

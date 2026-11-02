@@ -1,5 +1,5 @@
-import 'package:startwar_movie_app/data/models/cinema_list_model.dart';
+import 'package:startwar_movie_app/domain/entities/cinema.dart';
 
 abstract class CinemaRepository {
-  Future<List<CinemaData>> getCinemas();
+  Future<List<Cinema>> getCinemas();
 } 
