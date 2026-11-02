@@ -47,13 +47,7 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
 
       emit(ReminderLoaded(reminders));
 
-      eventBus.fire(
-        ReminderScheduled(
-          cinemaId: event.reminder.cinemaId,
-          filmDetail: event.reminder.filmDetail,
-          scheduledAt: event.reminder.scheduledAt,
-        ),
-      );
+      eventBus.fire(RemindersChanged(List.unmodifiable(reminders)));
     } catch (e) {
       emit(ReminderError(e.toString()));
     }
@@ -70,7 +64,7 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
 
       emit(ReminderLoaded(reminders));
 
-      eventBus.fire(ReminderCancelled(cinemaId: event.cinemaId));
+      eventBus.fire(RemindersChanged(List.unmodifiable(reminders)));
     } catch (e) {
       emit(ReminderError(e.toString()));
     }

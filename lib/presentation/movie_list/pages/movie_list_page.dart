@@ -1,5 +1,8 @@
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:startwar_movie_app/domain/repositories/movie_repository.dart';
+import 'package:startwar_movie_app/domain/repositories/reminder_repository.dart';
 import 'package:startwar_movie_app/presentation/movie_list/bloc/movie_bloc.dart';
 import 'package:startwar_movie_app/presentation/movie_list/bloc/movie_event.dart';
 import 'package:startwar_movie_app/presentation/movie_list/pages/movie_list_view.dart';
@@ -59,9 +62,7 @@ class MovieListPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => const ReminderPage(),
-                  ),
+                  MaterialPageRoute(builder: (context) => const ReminderPage()),
                 );
               },
             ),
@@ -69,9 +70,13 @@ class MovieListPage extends StatelessWidget {
           ],
         ),
         body: BlocProvider(
-          create: (context) =>
-              MovieBloc(RepositoryProvider.of(context))
-                ..add(const LoadMovieEvent()),
+          create: (context) => MovieBloc(
+            movieRepository: RepositoryProvider.of<MovieRepository>(context),
+            reminderRepository: RepositoryProvider.of<ReminderRepository>(
+              context,
+            ),
+            eventBus: RepositoryProvider.of<EventBus>(context),
+          )..add(const LoadMovieEvent()),
           child: const MovieListView(),
         ),
       ),

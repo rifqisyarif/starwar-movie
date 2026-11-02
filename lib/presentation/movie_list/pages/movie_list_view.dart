@@ -34,6 +34,7 @@ class MovieListView extends StatelessWidget {
 
         if (state is MovieLoadedState) {
           final films = state.films;
+          final reminderMovieIds = state.reminderMovieIds;
 
           if (films.isEmpty) {
             return StarfieldBackground(
@@ -73,15 +74,21 @@ class MovieListView extends StatelessWidget {
                 ),
                 padding: const EdgeInsets.fromLTRB(20, 8, 20, 36),
                 itemCount: films.length + 1,
-                separatorBuilder: (context, index) => SizedBox(
-                  height: index == 0 ? 24 : 14,
-                ),
+                separatorBuilder: (context, index) =>
+                    SizedBox(height: index == 0 ? 24 : 14),
                 itemBuilder: (context, index) {
                   if (index == 0) {
                     return SagaHeader(filmCount: films.length);
                   }
 
-                  return FilmCard(film: films[index - 1]);
+                  final film = films[index - 1];
+
+                  return FilmCard(
+                    film: film,
+                    hasReminder: reminderMovieIds.contains(
+                      film.episodeId?.toString(),
+                    ),
+                  );
                 },
               ),
             ),

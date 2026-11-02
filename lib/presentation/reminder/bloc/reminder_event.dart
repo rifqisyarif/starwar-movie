@@ -12,10 +12,6 @@ class ScheduleReminderEvent extends ReminderEvent {
 
 class CancelReminderEvent extends ReminderEvent {
   final String reminderId;
-  final String cinemaId;
 
-  CancelReminderEvent({
-    required this.reminderId,
-    required this.cinemaId,
-  });
+  CancelReminderEvent({required this.reminderId});
 }

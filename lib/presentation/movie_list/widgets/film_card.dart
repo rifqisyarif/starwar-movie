@@ -5,9 +5,10 @@ import 'package:startwar_movie_app/presentation/theme/app_theme.dart';
 import 'package:startwar_movie_app/presentation/widgets/roman_numeral.dart';
 
 class FilmCard extends StatelessWidget {
-  const FilmCard({super.key, required this.film});
+  const FilmCard({super.key, required this.film, this.hasReminder = false});
 
   final MovieData film;
+  final bool hasReminder;
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +34,7 @@ class FilmCard extends StatelessWidget {
               end: Alignment.bottomRight,
               colors: [AppColors.surface, AppColors.backgroundAlt],
             ),
-            border: Border.all(
-              color: AppColors.gold.withValues(alpha: 0.14),
-            ),
+            border: Border.all(color: AppColors.gold.withValues(alpha: 0.14)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.32),
@@ -86,10 +85,37 @@ class FilmCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 6),
-                Icon(
-                  Icons.chevron_right_rounded,
-                  color: AppColors.gold.withValues(alpha: 0.75),
-                  size: 22,
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (hasReminder) ...[
+                      Tooltip(
+                        message: 'Reminder set',
+                        child: Container(
+                          width: 30,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            color: AppColors.gold.withValues(alpha: 0.12),
+                            borderRadius: BorderRadius.circular(9),
+                            border: Border.all(
+                              color: AppColors.gold.withValues(alpha: 0.3),
+                            ),
+                          ),
+                          child: const Icon(
+                            Icons.notifications_active_rounded,
+                            size: 15,
+                            color: AppColors.gold,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                    ],
+                    Icon(
+                      Icons.chevron_right_rounded,
+                      color: AppColors.gold.withValues(alpha: 0.75),
+                      size: 22,
+                    ),
+                  ],
                 ),
               ],
             ),

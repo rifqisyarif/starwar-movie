@@ -1,4 +1,4 @@
-import 'package:startwar_movie_app/data/models/movie_detail_model.dart';
+import 'package:startwar_movie_app/domain/entities/reminder.dart';
 
 sealed class MovieEvent {
   const MovieEvent();
@@ -12,14 +12,8 @@ class LoadMovieEvent extends MovieEvent {
   const LoadMovieEvent();
 }
 
-class RefreshMovieReminderEvent extends MovieEvent {
-  final String cinemaId;
-  final DateTime scheduledAt;
-  final MovieDetailModel filmDetail;
+class RefreshMovieRemindersEvent extends MovieEvent {
+  final List<Reminder> reminders;
 
-  const RefreshMovieReminderEvent({
-    required this.cinemaId,
-    required this.scheduledAt,
-    required this.filmDetail,
-  });
+  const RefreshMovieRemindersEvent(this.reminders);
 }

@@ -9,8 +9,9 @@ class MovieLoadingState extends MovieState {}
 
 class MovieLoadedState extends MovieState {
   final List<MovieData> films;
+  final Set<String> reminderMovieIds;
 
-  MovieLoadedState(this.films);
+  MovieLoadedState(this.films, {this.reminderMovieIds = const <String>{}});
 }
 
 class MovieErrorState extends MovieState {
@@ -31,12 +32,4 @@ class MovieDetailErrorState extends MovieState {
   final String message;
 
   MovieDetailErrorState(this.message);
-}
-
-class MovieReminderUpdatedState extends MovieState {
-  final String cinemaId;
-  final DateTime scheduledAt;
-  final MovieDetailModel filmDetail;
-
-  MovieReminderUpdatedState(this.cinemaId, this.scheduledAt, this.filmDetail);
 }

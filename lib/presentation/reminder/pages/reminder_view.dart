@@ -60,8 +60,7 @@ class ReminderView extends StatelessWidget {
               onRefresh: () async {
                 final bloc = context.read<ReminderBloc>();
                 final done = bloc.stream.firstWhere(
-                  (state) =>
-                      state is ReminderLoaded || state is ReminderError,
+                  (state) => state is ReminderLoaded || state is ReminderError,
                 );
                 bloc.add(LoadRemindersEvent());
                 await done.timeout(
@@ -75,9 +74,8 @@ class ReminderView extends StatelessWidget {
                 ),
                 padding: const EdgeInsets.fromLTRB(20, 8, 20, 36),
                 itemCount: reminders.length + 1,
-                separatorBuilder: (context, index) => SizedBox(
-                  height: index == 0 ? 22 : 12,
-                ),
+                separatorBuilder: (context, index) =>
+                    SizedBox(height: index == 0 ? 22 : 12),
                 itemBuilder: (context, index) {
                   if (index == 0) {
                     return _ReminderHeader(count: reminders.length);
@@ -101,10 +99,7 @@ class ReminderView extends StatelessWidget {
 
   void _cancelReminder(BuildContext context, Reminder reminder) {
     context.read<ReminderBloc>().add(
-      CancelReminderEvent(
-        cinemaId: reminder.cinemaId,
-        reminderId: reminder.id,
-      ),
+      CancelReminderEvent(reminderId: reminder.id),
     );
 
     showAppSnackBar(
@@ -128,10 +123,7 @@ class _ReminderHeader extends StatelessWidget {
       children: [
         Text('UPCOMING SHOWS', style: AppTheme.label),
         const SizedBox(height: 10),
-        Text(
-          'Your Reminders',
-          style: AppTheme.display.copyWith(fontSize: 30),
-        ),
+        Text('Your Reminders', style: AppTheme.display.copyWith(fontSize: 30)),
         const SizedBox(height: 8),
         Text(
           '$count reminder${count == 1 ? '' : 's'} scheduled',
